@@ -47,7 +47,7 @@ pipeline {
     }
     stage('Analyze with Anchore plugin') {
       steps {
-        writeFile file: 'anchore_images', text: imageLine'$BUILD_NUMBER'
+        writeFile file: 'anchore_images', text: (imageLine:'$BUILD_NUMBER')
         anchore bailOnFail: false, engineRetries: '900', name: 'anchore_images'
       }
     }
