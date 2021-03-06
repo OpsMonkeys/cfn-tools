@@ -2,7 +2,7 @@
 
 ## Summary
 
-This repo contains the dockerfile for my Terraform Build Container. This is a lightweight container based off alpine that contains all the tools needed to provision work with Terraform:
+This repo contains the dockerfile for my CFN Build Container. This is a lightweight container based off alpine that contains all the tools needed to provision work with Terraform:
 Includes:
 TFENV for managing Terraform versions (https://github.com/tfutils/tfenv)
 Installs both Terraform 0.12 and Terraform 0.13
