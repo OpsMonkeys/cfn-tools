@@ -7,7 +7,7 @@ pipeline {
     registryCredential = 'harbor-docker'
     dockerImage = ''
     registryUri = 'https://harbor.kacsh.com'
-    imageLine = 'harbor.kacsh.com/library/cfn-tools:$BUILD_NUMBER'
+    imageLine = 'harbor.kacsh.com/library/cfn-tools:pre-latest'
   }
   agent {
     kubernetes {
@@ -40,14 +40,14 @@ pipeline {
       steps{
         script {
           docker.withRegistry( registryUri, registryCredential ) {
-             dockerImage.push('$BUILD_NUMBER')
+             dockerImage.push('pre-latest')
           }
         }
       }
     }
     stage('Analyze with Anchore plugin') {
       steps {
-        writeFile file: 'anchore_images', text: imageLine(':$BUILD_NUMBER')
+        writeFile file: 'anchore_images', text: imageLine
         anchore bailOnFail: false, engineRetries: '900', name: 'anchore_images'
       }
     }
@@ -56,6 +56,7 @@ pipeline {
         script {
           docker.withRegistry( registryUri, registryCredential ) {
              dockerImage.push('latest')
+             dockerImage.push('$BUILD_NUMBER')
           }
         }
       }
