@@ -36,7 +36,7 @@ pipeline {
         }
       }
     }
-    stage('Push Image') {
+    stage('Push Image to be scanned') {
       steps{
         script {
           docker.withRegistry( registryUri, registryCredential ) {
@@ -51,7 +51,7 @@ pipeline {
         anchore bailOnFail: false, engineRetries: '900', name: 'anchore_images'
       }
     }
-    stage('Deploy Image') {
+    stage('Publish Latest Image') {
       steps{
         script {
           docker.withRegistry( registryUri, registryCredential ) {
