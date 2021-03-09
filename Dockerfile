@@ -36,6 +36,10 @@ RUN yum install -y \
     pip3 install cloudformation-docs==${CFN_DOCS_VERSION} && \
     ## install reviewdog
     wget -O - -q https://raw.githubusercontent.com/reviewdog/reviewdog/master/install.sh | sh -s -- -b /usr/local/bin/ v${REVIEWDOG_VERSION} && \
+    ## install inspec
+    wget -O - -q https://omnitruck.chef.io/install.sh | sh -s -- -P inspec && \
+    ## install rubocop
+    gem install rubocop && \
     ## Clean up
     yum clean all
 
@@ -44,6 +48,8 @@ RUN useradd -b /home -d /home/cfn_user cfn_user
 USER cfn_user
 
 WORKDIR /home/cfn_user
+
+RUN mkdir cfn
 
 COPY entrypoint.sh /home/cfn_user/entrypoint.sh
 
