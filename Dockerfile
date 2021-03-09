@@ -5,6 +5,7 @@ ENV CFN_GUARD_VERSION=1.0.0
 ENV CFN_LINT_VERSION=0.46.0
 ENV CFN_NAG_VERSION=0.7.2
 ENV CHECKOV_VERSION=1.0.827
+ENV REVIEWDOG_VERSION=0.11.0
 
 WORKDIR /bin
 
@@ -33,6 +34,8 @@ RUN yum install -y \
     pip3 install checkov==${CHECKOV_VERSION} && \
     ## Install cfn-docs
     pip3 install cloudformation-docs==${CFN_DOCS_VERSION} && \
+    ## install reviewdog
+    wget -O - -q https://raw.githubusercontent.com/reviewdog/reviewdog/master/install.sh | sh -s -- -b /usr/local/bin/ v${REVIEWDOG_VERSION} && \
     ## Clean up
     yum clean all
 
