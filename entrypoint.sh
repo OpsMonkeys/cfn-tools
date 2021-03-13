@@ -1,3 +1,3 @@
 #!/bin/sh
-# source ~/.bashrc
+cd cfn
 exec $@
