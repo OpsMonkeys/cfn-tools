@@ -54,6 +54,7 @@ RUN yum install -y \
     ## install reviewdog
     wget -O - -q https://raw.githubusercontent.com/reviewdog/reviewdog/master/install.sh | sh -s -- -b /usr/local/bin/ v${REVIEWDOG_VERSION} && \
     ## Clean up
+    yum remove ruby -y && \
     yum clean all
 
 RUN useradd -b /home -d /home/cfn_user -g rvm cfn_user

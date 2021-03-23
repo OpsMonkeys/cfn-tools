@@ -8,7 +8,7 @@ build: ## Build the docker container and tag as latest
 .PHONY: build
 
 shell: build ## Build the docker container and then run in interaction mode
-	docker run -it ${IMAGE_TAG}:${TAG} /bin/sh
+	docker run -it ${IMAGE_TAG}:${TAG} /bin/bash
 .PHONY: shell
 
 push: ## Push the docker container to registry
