@@ -36,6 +36,10 @@ RUN yum install -y \
     wget -O - -q https://omnitruck.chef.io/install.sh | sh -s -- -P inspec && \
     ## Install rubocop
     gem install rubocop:${RUBOCOP_VERSION} && \
+    ## Update webrick CVE's CVE-2020-25613
+    gem update webrick && \
+    ## Update observer CVE's CVE-2008-4318
+    gem update observer && \
     ## Install cfn-guard
     wget https://github.com/aws-cloudformation/cloudformation-guard/releases/download/${CFN_GUARD_VERSION}/cfn-guard-linux-${CFN_GUARD_VERSION}.tar.gz && \
     tar -xvf cfn-guard-linux-${CFN_GUARD_VERSION}.tar.gz && \
@@ -43,8 +47,9 @@ RUN yum install -y \
     chmod +x cfn-guard && \
     rm -rf cfn-guard-linux-${CFN_GUARD_VERSION}.tar.gz && \
     rm -rf cfn-guard-linux && \
-    ## Install cfn-lint
+    ## Upgrade pip to avoid CVE's
     pip3 install --upgrade pip && \
+    ## Install cfn-lint
     pip install --no-cache-dir cfn-lint==${CFN_LINT_VERSION} && \
     ## Install checkov
     pip install --no-cache-dir checkov==${CHECKOV_VERSION} && \
@@ -67,3 +72,5 @@ RUN mkdir cfn
 COPY entrypoint.sh /home/cfn_user/entrypoint.sh
 
 ENTRYPOINT ["/home/cfn_user/entrypoint.sh"]
+
+HEALTHCHECK NONE
