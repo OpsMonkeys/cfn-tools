@@ -48,7 +48,7 @@ pipeline {
     stage('Analyze with Anchore plugin') {
       steps {
         writeFile file: 'anchore_images', text: imageLine
-        anchore bailOnFail: false, engineRetries: '900', name: 'anchore_images'
+        anchore bailOnFail: false, engineRetries: '1800', name: 'anchore_images'
       }
     }
     stage('Publish Latest Image') {
