@@ -23,8 +23,6 @@ RUN yum install -y \
     && \
     ## Install Development tools
     yum groupinstall -y "Development Tools" && \
-    # amazon-linux-extras install ruby2.6 && \
-    # yum install -y ruby-devel rubygems && \
     ## Install RVM and Ruby 2.7
     gpg2 --keyserver hkp://keys.gnupg.net --recv-keys 409B6B1796C275462A1703113804BB82D39DC0E3 7D2BAF1CF37B13E2069D6956105BD0E739499BDB && \
     curl -sSL https://get.rvm.io | sh -s stable && \
@@ -46,11 +44,12 @@ RUN yum install -y \
     rm -rf cfn-guard-linux-${CFN_GUARD_VERSION}.tar.gz && \
     rm -rf cfn-guard-linux && \
     ## Install cfn-lint
-    pip3 install --no-cache-dir cfn-lint==${CFN_LINT_VERSION} && \
+    pip3 install --upgrade pip && \
+    pip install --no-cache-dir cfn-lint==${CFN_LINT_VERSION} && \
     ## Install checkov
-    pip3 install --no-cache-dir checkov==${CHECKOV_VERSION} && \
+    pip install --no-cache-dir checkov==${CHECKOV_VERSION} && \
     ## Install cfn-docs
-    pip3 install --no-cache-dir cloudformation-docs==${CFN_DOCS_VERSION} && \
+    pip install --no-cache-dir cloudformation-docs==${CFN_DOCS_VERSION} && \
     ## install reviewdog
     wget -O - -q https://raw.githubusercontent.com/reviewdog/reviewdog/master/install.sh | sh -s -- -b /usr/local/bin/ v${REVIEWDOG_VERSION} && \
     ## Clean up
