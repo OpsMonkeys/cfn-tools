@@ -37,9 +37,10 @@ RUN yum install -y \
     ## Install rubocop
     gem install rubocop:${RUBOCOP_VERSION} && \
     ## Update webrick CVE's CVE-2020-25613
-    gem update webrick && \
+    gem update webrick:1.7.0 && \
     ## Update observer CVE's CVE-2008-4318
-    gem update observer && \
+    gem update observer:0.1.1 && \
+    gem cleanup && \
     ## Install cfn-guard
     wget https://github.com/aws-cloudformation/cloudformation-guard/releases/download/${CFN_GUARD_VERSION}/cfn-guard-linux-${CFN_GUARD_VERSION}.tar.gz && \
     tar -xvf cfn-guard-linux-${CFN_GUARD_VERSION}.tar.gz && \
