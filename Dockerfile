@@ -30,16 +30,19 @@ RUN yum install -y \
     rvm install ${RUBY_VERSION} && \
     rvm use ${RUBY_VERSION} --default && \
     rvm alias create default ${RUBY_VERSION} && \
+    rvm cleanup all && \
+    # Update webrick CVE's CVE-2020-25613
+    gem install webrick:1.7.0 && \
+    ## Update observer CVE's CVE-2008-4318
+    gem install observer:0.1.1 && \
     ## Install cfn-nag
     gem install cfn-nag:${CFN_NAG_VERSION} && \
     ## Install inspec
     wget -O - -q https://omnitruck.chef.io/install.sh | sh -s -- -P inspec && \
     ## Install rubocop
     gem install rubocop:${RUBOCOP_VERSION} && \
-    ## Update webrick CVE's CVE-2020-25613
-    gem update webrick:1.7.0 && \
-    ## Update observer CVE's CVE-2008-4318
-    gem update observer:0.1.1 && \
+    ## Gem Update and cleanup
+    gem update && \
     gem cleanup && \
     ## Install cfn-guard
     wget https://github.com/aws-cloudformation/cloudformation-guard/releases/download/${CFN_GUARD_VERSION}/cfn-guard-linux-${CFN_GUARD_VERSION}.tar.gz && \
