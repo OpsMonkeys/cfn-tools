@@ -23,15 +23,17 @@ RUN yum install -y \
     yum groupinstall -y "Development Tools" && \
     ## Install Ruby 2.6 for cfn-nag
     amazon-linux-extras install ruby2.6 && \
-    yum install -y ruby-devel rubygems && \
-    # Update webrick CVE's CVE-2020-25613
-    gem install webrick:1.7.0 && \
-    ## Install cfn-nag
+    yum install -y ruby-devel-2.6.6 && \
+    ## Update webrick CVE's CVE-2020-25613
+    gem install --default webrick:1.7.0 && \
+    ## Update json CVE's CVE-2008-4318
     gem install cfn-nag:${CFN_NAG_VERSION} && \
     ## Install inspec
     wget -O - -q https://omnitruck.chef.io/install.sh | sh -s -- -P inspec && \
     ## Install rubocop
     gem install rubocop:${RUBOCOP_VERSION} && \
+    ## Gem Cleanup
+    gem cleanup webrick && \
     ## Install hadolint
     wget -O hadolint https://github.com/hadolint/hadolint/releases/download/v${HADOLINT_VERSION}/hadolint-Linux-x86_64 && \
     chmod +x hadolint && \
@@ -53,7 +55,7 @@ RUN yum install -y \
     ## Install yq
     pip install --no-cache-dir yq==${YQ_VERSION} && \
     ## Install reviewdog
-    wget -O - -q https://raw.githubusercontent.com/reviewdog/reviewdog/master/install.sh | sh -s -- -b /usr/local/bin/ v${REVIEWDOG_VERSION} && \
+    wget -O - -q https://raw.githubusercontent.com/reviewdog/reviewdog/master/install.sh | sh -s -- -b /bin/ v${REVIEWDOG_VERSION} && \
     ## Clean up
     yum clean all
 
