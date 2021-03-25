@@ -26,7 +26,7 @@ RUN yum install -y \
     yum install -y ruby-devel-2.6.6 && \
     ## Update webrick CVE's CVE-2020-25613
     gem install --default webrick:1.7.0 && \
-    ## Update json CVE's CVE-2008-4318
+    ## Install cfn-nag
     gem install cfn-nag:${CFN_NAG_VERSION} && \
     ## Install inspec
     wget -O - -q https://omnitruck.chef.io/install.sh | sh -s -- -P inspec && \
