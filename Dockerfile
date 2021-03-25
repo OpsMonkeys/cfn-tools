@@ -5,45 +5,36 @@ ENV CFN_GUARD_VERSION=1.0.0
 ENV CFN_LINT_VERSION=0.46.0
 ENV CFN_NAG_VERSION=0.7.2
 ENV CHECKOV_VERSION=1.0.827
+ENV HADOLINT_VERSION=1.16.3
 ENV REVIEWDOG_VERSION=0.11.0
 ENV RUBOCOP_VERSION=1.11.0
-ENV RUBY_VERSION=2.7.2
+ENV YQ_VERSION=2.12.0
 
 WORKDIR /bin
-
-SHELL [ "/bin/bash", "-l", "-c" ]
 
 RUN yum install -y \
     git-2.23.3 \
     wget-1.14 \
     python3-3.7.9 \
     tar-1.26 \
-    which-2.20 \
-    procps-ng-3.3.10 \
+    jq-1.5 \
     && \
     ## Install Development tools
     yum groupinstall -y "Development Tools" && \
-    ## Install RVM and Ruby 2.7
-    gpg2 --keyserver hkp://keys.gnupg.net --recv-keys 409B6B1796C275462A1703113804BB82D39DC0E3 7D2BAF1CF37B13E2069D6956105BD0E739499BDB && \
-    curl -sSL https://get.rvm.io | sh -s stable && \
-    source /usr/local/rvm/scripts/rvm && \
-    rvm install ${RUBY_VERSION} && \
-    rvm use ${RUBY_VERSION} --default && \
-    rvm alias create default ${RUBY_VERSION} && \
-    rvm cleanup all && \
+    ## Install Ruby 2.6 for cfn-nag
+    amazon-linux-extras install ruby2.6 && \
+    yum install -y ruby-devel rubygems && \
     # Update webrick CVE's CVE-2020-25613
     gem install webrick:1.7.0 && \
-    ## Update observer CVE's CVE-2008-4318
-    gem install observer:0.1.1 && \
     ## Install cfn-nag
     gem install cfn-nag:${CFN_NAG_VERSION} && \
     ## Install inspec
     wget -O - -q https://omnitruck.chef.io/install.sh | sh -s -- -P inspec && \
     ## Install rubocop
     gem install rubocop:${RUBOCOP_VERSION} && \
-    ## Gem Update and cleanup
-    gem update && \
-    gem cleanup && \
+    ## Install hadolint
+    wget -O hadolint https://github.com/hadolint/hadolint/releases/download/v${HADOLINT_VERSION}/hadolint-Linux-x86_64 && \
+    chmod +x hadolint && \
     ## Install cfn-guard
     wget https://github.com/aws-cloudformation/cloudformation-guard/releases/download/${CFN_GUARD_VERSION}/cfn-guard-linux-${CFN_GUARD_VERSION}.tar.gz && \
     tar -xvf cfn-guard-linux-${CFN_GUARD_VERSION}.tar.gz && \
@@ -59,13 +50,14 @@ RUN yum install -y \
     pip install --no-cache-dir checkov==${CHECKOV_VERSION} && \
     ## Install cfn-docs
     pip install --no-cache-dir cloudformation-docs==${CFN_DOCS_VERSION} && \
-    ## install reviewdog
+    ## Install yq
+    pip install --no-cache-dir yq==${YQ_VERSION} && \
+    ## Install reviewdog
     wget -O - -q https://raw.githubusercontent.com/reviewdog/reviewdog/master/install.sh | sh -s -- -b /usr/local/bin/ v${REVIEWDOG_VERSION} && \
     ## Clean up
-    yum remove ruby -y && \
     yum clean all
 
-RUN useradd -b /home -d /home/cfn_user -g rvm cfn_user
+RUN useradd -b /home -d /home/cfn_user cfn_user
 
 USER cfn_user
 
