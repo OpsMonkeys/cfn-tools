@@ -13,7 +13,7 @@ ENV YQ_VERSION=2.12.0
 WORKDIR /bin
 
 RUN yum install -y \
-    git-2.23.3 \
+    git-2.23.4 \
     wget-1.14 \
     python3-3.7.9 \
     tar-1.26 \
@@ -24,14 +24,16 @@ RUN yum install -y \
     ## Install Ruby 2.6 for cfn-nag
     amazon-linux-extras install ruby2.6 && \
     yum install -y ruby-devel-2.6.7 && \
-    # ## Update webrick CVE's CVE-2020-25613
-    # gem install --default webrick:1.7.0 && \
+    ## Update webrick CVE's CVE-2020-25613
+    gem install --default webrick:1.7.0 && \
     ## Install cfn-nag
     gem install cfn-nag:${CFN_NAG_VERSION} && \
     ## Install inspec
     wget -O - -q https://omnitruck.chef.io/install.sh | sh -s -- -P inspec && \
     ## Install rubocop
     gem install rubocop:${RUBOCOP_VERSION} && \
+    ## Install newer version of Rake
+    gem install rake -v 12.3.3 && \
     ## Gem Cleanup
     gem cleanup webrick && \
     ## Install hadolint
