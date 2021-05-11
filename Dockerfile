@@ -3,7 +3,7 @@ FROM amazon/aws-cli:2.2.3
 ENV CFN_DOCS_VERSION=0.3.2
 ENV CFN_GUARD_VERSION=1.0.0
 ENV CFN_LINT_VERSION=0.49.1
-ENV CFN_NAG_VERSION=0.7.12
+ENV CFN_NAG_VERSION=0.7.13
 ENV CHECKOV_VERSION=2.0.132
 ENV HADOLINT_VERSION=2.4.0
 ENV REVIEWDOG_VERSION=0.11.0
@@ -33,7 +33,7 @@ RUN yum install -y \
     ## Install rubocop
     gem install rubocop:${RUBOCOP_VERSION} && \
     ## Install newer version of Rake
-    gem install rake -v 12.3.3 && \
+    gem install rake -v 13.0.3 && \
     ## Gem Cleanup
     gem cleanup webrick rake && \
     ## Install hadolint
