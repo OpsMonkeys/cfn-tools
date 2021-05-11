@@ -1,13 +1,13 @@
-FROM amazon/aws-cli:2.1.29
+FROM amazon/aws-cli:2.2.3
 
 ENV CFN_DOCS_VERSION=0.3.2
 ENV CFN_GUARD_VERSION=1.0.0
-ENV CFN_LINT_VERSION=0.46.0
-ENV CFN_NAG_VERSION=0.7.2
-ENV CHECKOV_VERSION=1.0.827
-ENV HADOLINT_VERSION=1.16.3
+ENV CFN_LINT_VERSION=0.49.1
+ENV CFN_NAG_VERSION=0.7.12
+ENV CHECKOV_VERSION=2.0.132
+ENV HADOLINT_VERSION=2.4.0
 ENV REVIEWDOG_VERSION=0.11.0
-ENV RUBOCOP_VERSION=1.11.0
+ENV RUBOCOP_VERSION=1.14.0
 ENV YQ_VERSION=2.12.0
 
 WORKDIR /bin
@@ -23,9 +23,9 @@ RUN yum install -y \
     yum groupinstall -y "Development Tools" && \
     ## Install Ruby 2.6 for cfn-nag
     amazon-linux-extras install ruby2.6 && \
-    yum install -y ruby-devel-2.6.6 && \
-    ## Update webrick CVE's CVE-2020-25613
-    gem install --default webrick:1.7.0 && \
+    yum install -y ruby-devel-2.6.7 && \
+    # ## Update webrick CVE's CVE-2020-25613
+    # gem install --default webrick:1.7.0 && \
     ## Install cfn-nag
     gem install cfn-nag:${CFN_NAG_VERSION} && \
     ## Install inspec
