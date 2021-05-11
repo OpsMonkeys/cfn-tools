@@ -35,7 +35,7 @@ RUN yum install -y \
     ## Install newer version of Rake
     gem install rake -v 12.3.3 && \
     ## Gem Cleanup
-    gem cleanup webrick && \
+    gem cleanup webrick rake && \
     ## Install hadolint
     wget -O hadolint https://github.com/hadolint/hadolint/releases/download/v${HADOLINT_VERSION}/hadolint-Linux-x86_64 && \
     chmod +x hadolint && \
