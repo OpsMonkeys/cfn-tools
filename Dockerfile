@@ -1,4 +1,4 @@
-FROM amazon/aws-cli:2.2.3
+FROM amazon/aws-cli:2.2.4
 
 ENV CFN_DOCS_VERSION=0.3.2
 ENV CFN_GUARD_VERSION=1.0.0
@@ -29,25 +29,25 @@ RUN yum install -y \
     ## Install cfn-nag
     gem install cfn-nag:${CFN_NAG_VERSION} && \
     ## Install inspec
-    wget -O - -q https://omnitruck.chef.io/install.sh | sh -s -- -P inspec && \
+    wget -O - -q --progress=dot:giga https://omnitruck.chef.io/install.sh | sh -s -- -P inspec && \
     ## Install rubocop
     gem install rubocop:${RUBOCOP_VERSION} && \
     ## Install newer version of Rake
-    gem install rake -v 13.0.3 && \
+    gem install rake:13.0.3 && \
     ## Gem Cleanup
     gem cleanup webrick rake && \
     ## Install hadolint
-    wget -O hadolint https://github.com/hadolint/hadolint/releases/download/v${HADOLINT_VERSION}/hadolint-Linux-x86_64 && \
+    wget -O hadolint --progress=dot:giga https://github.com/hadolint/hadolint/releases/download/v${HADOLINT_VERSION}/hadolint-Linux-x86_64 && \
     chmod +x hadolint && \
     ## Install cfn-guard
-    wget https://github.com/aws-cloudformation/cloudformation-guard/releases/download/${CFN_GUARD_VERSION}/cfn-guard-linux-${CFN_GUARD_VERSION}.tar.gz && \
+    wget --progress=dot:giga https://github.com/aws-cloudformation/cloudformation-guard/releases/download/${CFN_GUARD_VERSION}/cfn-guard-linux-${CFN_GUARD_VERSION}.tar.gz && \
     tar -xvf cfn-guard-linux-${CFN_GUARD_VERSION}.tar.gz && \
     mv cfn-guard-linux/cfn-guard . && \
     chmod +x cfn-guard && \
     rm -rf cfn-guard-linux-${CFN_GUARD_VERSION}.tar.gz && \
     rm -rf cfn-guard-linux && \
     ## Upgrade pip to avoid CVE's
-    pip3 install --upgrade pip && \
+    pip3 install --upgrade --no-cache-dir pip==21.1.1 && \
     ## Install cfn-lint
     pip install --no-cache-dir cfn-lint==${CFN_LINT_VERSION} && \
     ## Install checkov
@@ -57,11 +57,10 @@ RUN yum install -y \
     ## Install yq
     pip install --no-cache-dir yq==${YQ_VERSION} && \
     ## Install reviewdog
-    wget -O - -q https://raw.githubusercontent.com/reviewdog/reviewdog/master/install.sh | sh -s -- -b /bin/ v${REVIEWDOG_VERSION} && \
+    wget -O - -q --progress=dot:giga https://raw.githubusercontent.com/reviewdog/reviewdog/master/install.sh | sh -s -- -b /bin/ v${REVIEWDOG_VERSION} && \
     ## Clean up
-    yum clean all
-
-RUN useradd -b /home -d /home/cfn_user cfn_user
+    yum clean all && \
+    useradd -b /home -d /home/cfn_user cfn_user
 
 USER cfn_user
 
