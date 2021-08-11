@@ -1,14 +1,14 @@
-FROM amazon/aws-cli:2.2.4
+FROM amazon/aws-cli:2.2.8
 
 ENV CFN_DOCS_VERSION=0.3.2
-ENV CFN_GUARD_VERSION=1.0.0
-ENV CFN_LINT_VERSION=0.49.1
-ENV CFN_NAG_VERSION=0.7.13
-ENV CHECKOV_VERSION=2.0.132
-ENV HADOLINT_VERSION=2.4.0
-ENV REVIEWDOG_VERSION=0.11.0
-ENV RUBOCOP_VERSION=1.14.0
-ENV YQ_VERSION=2.12.0
+ENV CFN_GUARD_VERSION=2.0.3
+ENV CFN_LINT_VERSION=0.53.0
+ENV CFN_NAG_VERSION=0.7.14
+ENV CHECKOV_VERSION=2.0.344
+ENV HADOLINT_VERSION=2.6.0
+ENV REVIEWDOG_VERSION=0.13.0
+ENV RUBOCOP_VERSION=1.18.4
+ENV YQ_VERSION=2.12.2
 
 WORKDIR /bin
 
@@ -40,12 +40,12 @@ RUN yum install -y \
     wget -O hadolint --progress=dot:giga https://github.com/hadolint/hadolint/releases/download/v${HADOLINT_VERSION}/hadolint-Linux-x86_64 && \
     chmod +x hadolint && \
     ## Install cfn-guard
-    wget --progress=dot:giga https://github.com/aws-cloudformation/cloudformation-guard/releases/download/${CFN_GUARD_VERSION}/cfn-guard-linux-${CFN_GUARD_VERSION}.tar.gz && \
-    tar -xvf cfn-guard-linux-${CFN_GUARD_VERSION}.tar.gz && \
-    mv cfn-guard-linux/cfn-guard . && \
+    wget --progress=dot:giga https://github.com/aws-cloudformation/cloudformation-guard/releases/download/${CFN_GUARD_VERSION}/cfn-guard-v2-ubuntu-latest.tar.gz && \
+    tar -xvf cfn-guard-v2-ubuntu-latest.tar.gz && \
+    mv cfn-guard-v2-ubuntu-latest/cfn-guard . && \
     chmod +x cfn-guard && \
-    rm -rf cfn-guard-linux-${CFN_GUARD_VERSION}.tar.gz && \
-    rm -rf cfn-guard-linux && \
+    rm -rf cfn-guard-v2-ubuntu-latest.tar.gz && \
+    rm -rf cfn-guard-v2-ubuntu-latest && \
     ## Upgrade pip to avoid CVE's
     pip3 install --upgrade --no-cache-dir pip==21.1.1 && \
     ## Install cfn-lint
