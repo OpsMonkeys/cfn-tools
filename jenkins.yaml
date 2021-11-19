@@ -9,13 +9,13 @@ spec:
   containers:
     - name: docker
       image: docker:latest
-      # resources: # limits the resources your build contaienr
-      #   requests:
-      #     memory: "256Mi"
-      #     cpu: "500m"
-      #   limits:
-      #     memory: "1024Mi"
-      #     cpu: "1000m"
+      resources: # limits the resources your build contaienr
+        requests:
+          memory: "256Mi"
+          cpu: "500m"
+        limits:
+          memory: "1024Mi"
+          cpu: "1000m"
       command:
         - cat
       tty: true

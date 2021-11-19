@@ -11,7 +11,7 @@ pipeline {
   }
   agent {
     kubernetes {
-      label 'test-demo'
+      label 'jenkins-worker'
       defaultContainer 'docker'
       yamlFile 'jenkins.yaml'
 }
