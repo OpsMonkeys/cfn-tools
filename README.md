@@ -32,3 +32,12 @@ You will need to set a DOCKER_REGISTRY_URL environment variable
 `make tag` = Will tag the image
 
 `make help` = Will list the help screen for the makefile
+
+
+### PR Checks and Github Actions
+
+This repo has a few different Github Actions that are also running.
+
+Anchore - This is the container vulnerability scanning engine, that can help identify container issues. https://github.com/anchore/scan-action
+Hadolint - This is a quick check for proper Dockerfile conventions and best practices
+Docker_build_push - This builds and publishes a new image to Dockerhub https://hub.docker.com/r/drkrazy/cfn-tools based off a github release tag
