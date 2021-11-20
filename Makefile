@@ -1,6 +1,8 @@
 .DEFAULT_GOAL := help
 SHA := latest
 TAG := latest
+GIT_TAG = $(shell git describe --tags $(git rev-list --tags --max-count=1) | sed s/v//g)
+PACKAGE_VERSION = $(shell cat package.json| jq -r '.version')
 IMAGE_TAG := ${DOCKER_REGISTRY_URL}/library/cfn_tools
 
 build: ## Build the docker container and tag as latest
@@ -27,8 +29,19 @@ hadolint: ## Runs hadolint locally - you need to have it installed first (https:
 	hadolint Dockerfile
 .PHONY: hadolint
 
-prepare-pr: build grype hadolint ## Runs grype, and hadolint to check for issues with container before your PR
-	echo "Running PR Checks"
+check-version: ## Checks for the required version bump
+	@echo "\033[36m"Checking Version"\033[0m"; \
+	if [ "${GIT_TAG}" == "${PACKAGE_VERSION}" ]; then \
+	echo "\033[0;31mVersion is equal to current tag, please update it!\033[0m"; \
+	else \
+	echo "\033[0;32mVersion is not equal to current tag, good to go\033[0m"; \
+	fi
+	@echo "\033[36m"Version Check Complete"\033[0m"
+.PHONY: check-version
+
+prepare-pr: hadolint build grype check-version ## Runs grype, and hadolint to check for issues with container before your PR
+	@echo "\033[36m"Done Running PR Checks"\033[0m"
+.PHONY: prepare-pr
 
 help: ## show this usage
 	@awk 'BEGIN {FS = ":.*##"; printf "\nUsage:\n  make \033[36m<target>\033[0m\n\nTargets:\n"} /^[a-zA-Z_-]+:.*?##/ { printf "  \033[36m%-10s\033[0m %s\n", $$1, $$2 }' $(MAKEFILE_LIST)
