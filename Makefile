@@ -3,7 +3,7 @@ SHA := latest
 TAG := latest
 GIT_TAG = $(shell git describe --tags $(git rev-list --tags --max-count=1) | sed s/v//g)
 PACKAGE_VERSION = $(shell cat package.json| jq -r '.version')
-IMAGE_TAG := ${DOCKER_REGISTRY_URL}/library/cfn_tools
+IMAGE_TAG := ${DOCKER_REGISTRY_URL}/library/cfn-tools
 
 build: ## Build the docker container and tag as latest
 	docker build -t ${IMAGE_TAG}:${TAG} .

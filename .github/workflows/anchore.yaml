@@ -13,7 +13,7 @@ jobs:
       - name: build local container
         uses: docker/build-push-action@v2
         with:
-          tags: kkacsh321/cfntools:test-anchore
+          tags: kkacsh321/cfn-tools:test-anchore
           push: false
           load: true
 
@@ -21,7 +21,7 @@ jobs:
         uses: anchore/scan-action@v3
         id: scan
         with:
-          image: "kkacsh321/cfntools:test-anchore"
+          image: "kkacsh321/cfn-tools:test-anchore"
           fail-build: false
           severity-cutoff: "medium"
           acs-report-enable: false
