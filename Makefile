@@ -32,9 +32,9 @@ hadolint: ## Runs hadolint locally - you need to have it installed first (https:
 check-version: ## Checks for the required version bump
 	@echo "\033[36m"Checking Version"\033[0m"; \
 	if [ "${GIT_TAG}" == "${PACKAGE_VERSION}" ]; then \
-	echo "\033[0;31mVersion is equal to current tag, please update it!\033[0m"; \
+	echo "\033[0;31mVersion ${PACKAGE_VERSION} is equal to current tag ${GIT_TAG}, please update it!\033[0m"; \
 	else \
-	echo "\033[0;32mVersion is not equal to current tag, good to go\033[0m"; \
+	echo "\033[0;32mVersion ${PACKAGE_VERSION} is not equal to current tag ${GIT_TAG}, good to go\033[0m"; \
 	fi
 	@echo "\033[36m"Version Check Complete"\033[0m"
 .PHONY: check-version
