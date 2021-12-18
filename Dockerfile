@@ -1,10 +1,10 @@
-FROM amazon/aws-cli:2.4.0
+FROM amazon/aws-cli:2.4.6
 
 ENV CFN_DOCS_VERSION=0.3.2
 ENV CFN_GUARD_VERSION=2.0.4
-ENV CFN_LINT_VERSION=0.56.1
+ENV CFN_LINT_VERSION=0.56.3
 ENV CFN_NAG_VERSION=0.8.8
-ENV CHECKOV_VERSION=2.0.591
+ENV CHECKOV_VERSION=2.0.672
 ENV HADOLINT_VERSION=2.8.0
 ENV REVIEWDOG_VERSION=0.13.0
 ENV RUBOCOP_VERSION=1.23.0
@@ -23,7 +23,7 @@ RUN yum install -y \
     yum groupinstall -y "Development Tools" && \
     ## Install Ruby 2.6 for cfn-nag
     amazon-linux-extras install ruby2.6 && \
-    yum install -y ruby-devel-2.6.8 && \
+    yum install -y ruby-devel-2.6.9 && \
     ## Install cfn-nag
     gem install cfn-nag:${CFN_NAG_VERSION} && \
     ## Install inspec
